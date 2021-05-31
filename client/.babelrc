@@ -19,15 +19,11 @@
         "useBuiltIns": true,
         "pragma": "React.createElement"
       }
-    ]
+    ],
+    "@babel/preset-typescript"
   ],
   "plugins": [
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": true
-      }
-    ],
+    "preval",
     "@babel/plugin-syntax-dynamic-import",
     "babel-plugin-macros",
     [
@@ -42,10 +38,6 @@
       {
         "react-bootstrap": {
           "transform": "react-bootstrap/lib/${member}",
-          "preventFullImport": true
-        },
-        "lodash": {
-          "transform": "lodash/${member}",
           "preventFullImport": true
         }
       }
