@@ -1,8 +1,7 @@
-/* global describe it expect jest */
-import { mockReq as mockRequest, mockRes } from '../boot_tests/challenge.test';
 import jwt from 'jsonwebtoken';
 
-import { homeLocation } from '../../../../config/env';
+import { homeLocation } from '../../../../config/env.json';
+import { mockReq as mockRequest, mockRes } from '../boot_tests/challenge.test';
 import createRequestAuthorization, {
   isAllowedPath
 } from './request-authorization';
@@ -153,7 +152,7 @@ describe('request-authorization', () => {
         expect(next).not.toHaveBeenCalled();
       });
 
-      it('adds the user to the request object', async done => {
+      it('adds the user to the request object', async () => {
         expect.assertions(3);
         const validJWT = jwt.sign({ accessToken }, validJWTSecret);
         const req = mockReq({
@@ -167,10 +166,9 @@ describe('request-authorization', () => {
         expect(next).toHaveBeenCalled();
         expect(req).toHaveProperty('user');
         expect(req.user).toEqual(users['456def']);
-        return done();
       });
 
-      it('adds the jwt to the headers', async done => {
+      it('adds the jwt to the headers', async () => {
         const validJWT = jwt.sign({ accessToken }, validJWTSecret);
         const req = mockReq({
           path: '/some-path/that-needs/auth',
@@ -181,7 +179,6 @@ describe('request-authorization', () => {
         const next = jest.fn();
         await requestAuthorization(req, res, next);
         expect(res.set).toHaveBeenCalledWith('X-fcc-access-token', validJWT);
-        return done();
       });
 
       it('calls next if request does not require authorization', async () => {
@@ -241,7 +238,7 @@ describe('request-authorization', () => {
         expect(next).not.toHaveBeenCalled();
       });
 
-      it('adds the user to the request object', async done => {
+      it('adds the user to the request object', async () => {
         expect.assertions(3);
         const validJWT = jwt.sign({ accessToken }, validJWTSecret);
         const req = mockReq({
@@ -254,10 +251,9 @@ describe('request-authorization', () => {
         expect(next).toHaveBeenCalled();
         expect(req).toHaveProperty('user');
         expect(req.user).toEqual(users['456def']);
-        return done();
       });
 
-      it('adds the jwt to the headers', async done => {
+      it('adds the jwt to the headers', async () => {
         const validJWT = jwt.sign({ accessToken }, validJWTSecret);
         const req = mockReq({
           path: '/some-path/that-needs/auth',
@@ -268,7 +264,6 @@ describe('request-authorization', () => {
         const next = jest.fn();
         await requestAuthorization(req, res, next);
         expect(res.set).toHaveBeenCalledWith('X-fcc-access-token', validJWT);
-        return done();
       });
 
       it('calls next if request does not require authorization', async () => {

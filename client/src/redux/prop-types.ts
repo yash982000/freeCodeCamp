@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
+import { HandlerProps } from 'react-reflex';
 
-const FileType = PropTypes.shape({
+export const FileType = PropTypes.shape({
   key: PropTypes.string,
   ext: PropTypes.string,
   name: PropTypes.string,
@@ -24,10 +25,7 @@ export const ChallengeNode = PropTypes.shape({
   challengeType: PropTypes.number,
   dashedName: PropTypes.string,
   description: PropTypes.string,
-  files: PropTypes.shape({
-    indexhtml: FileType,
-    indexjs: FileType
-  }),
+  challengeFiles: PropTypes.array,
   fields: PropTypes.shape({
     slug: PropTypes.string,
     blockName: PropTypes.string
@@ -83,7 +81,7 @@ export const User = PropTypes.shape({
       githubLink: PropTypes.string,
       challengeType: PropTypes.number,
       completedDate: PropTypes.number,
-      files: PropTypes.array
+      challengeFiles: PropTypes.array
     })
   ),
   email: PropTypes.string,
@@ -134,6 +132,13 @@ export const CurrentCertsType = PropTypes.arrayOf(
   })
 );
 
+export const StepsType = PropTypes.shape({
+  currentCerts: CurrentCertsType,
+  isShowCerts: PropTypes.bool,
+  isShowName: PropTypes.bool,
+  isShowProfile: PropTypes.bool
+});
+
 // TYPESCRIPT TYPES
 
 export type CurrentCertType = {
@@ -143,47 +148,84 @@ export type CurrentCertType = {
 };
 
 export type MarkdownRemarkType = {
-  html: string;
+  fields: [{ component: string; nodeIdentity: string; slug: string }];
+  fileAbsolutePath: string;
   frontmatter: {
-    title: string;
     block: string;
+    isBeta: boolean;
     superBlock: string;
+    title: string;
+  };
+  headings: [
+    {
+      depth: number;
+      value: string;
+      id: string;
+    }
+  ];
+  html: string;
+  htmlAst: Record<string, unknown>;
+  id: string;
+  rawMarkdownBody: string;
+  timeToRead: number;
+  wordCount: {
+    paragraphs: number;
+    sentences: number;
+    words: number;
   };
 };
+
+type Question = { text: string; answers: string[]; solution: number };
+type Fields = { slug: string; blockName: string; tests: Test[] };
+type Required = {
+  link: string;
+  raw: boolean;
+  src: string;
+  crossDomain?: boolean;
+};
+export interface BilibiliIds {
+  aid: string;
+  bvid: string;
+  cid: string;
+}
+
+export interface VideoLocaleIds {
+  espanol?: string;
+  italian?: string;
+  portuguese?: string;
+}
+
 export type ChallengeNodeType = {
   block: string;
   challengeOrder: number;
   challengeType: number;
   dashedName: string;
   description: string;
-  challengeFiles: ChallengeFileType[];
-  fields: {
-    slug: string;
-    blockName: string;
-  };
+  challengeFiles: ChallengeFiles;
+  fields: Fields;
   forumTopicId: number;
   guideUrl: string;
   head: string[];
   helpCategory: string;
+  id: string;
   instructions: string;
   isComingSoon: boolean;
   removeComments: boolean;
   isLocked: boolean;
   isPrivate: boolean;
   order: number;
-  required: [
-    {
-      link: string;
-      raw: string;
-      src: string;
-    }
-  ];
+  question: Question;
+  required: Required[];
   superOrder: number;
   superBlock: string;
   tail: string[];
   time: string;
   title: string;
   translationPending: boolean;
+  url: string;
+  videoId: string;
+  videoLocaleIds?: VideoLocaleIds;
+  bilibiliIds?: BilibiliIds;
   videoUrl: string;
 };
 
@@ -204,7 +246,7 @@ export type AllMarkdownRemarkType = {
 };
 
 export type ResizePropsType = {
-  onStopResize: () => void;
+  onStopResize: (arg0: HandlerProps) => void;
   onResize: () => void;
 };
 
@@ -213,28 +255,44 @@ export type DimensionsType = {
   width: number;
 };
 
-export type TestType = {
+export type Test = {
+  pass?: boolean;
+  err?: string;
+} & (ChallengeTest | CertTest);
+
+export type ChallengeTest = {
   text: string;
   testString: string;
 };
 
+export type CertTest = {
+  id: string;
+  title: string;
+};
+
 export type UserType = {
   about: string;
+  acceptedPrivacyTerms: boolean;
   completedChallenges: CompletedChallenge[];
+  currentChallengeId: string;
   email: string;
+  emailVerified: boolean;
   githubProfile: string;
+  isBanned: boolean;
+  isCheater: boolean;
   isHonest: boolean;
   linkedin: string;
   location: string;
   name: string;
   picture: string;
   points: number;
-  portfolio: PortfolioType;
+  portfolio: PortfolioType[];
   profileUI: {
     isLocked: boolean;
     showCerts: boolean;
     showName: boolean;
   };
+  progressTimestamps: Array<unknown>;
   sendQuincyEmail: boolean;
   theme: string;
   twitter: string;
@@ -263,31 +321,28 @@ export type isCertifiedTypes = {
 
 export type CompletedChallenge = {
   id: string;
-  solution: string;
-  githubLink: string;
-  challengeType: number;
+  solution?: string | null;
+  githubLink?: string;
+  challengeType?: number;
   completedDate: number;
-  challengeFiles: ChallengeFileType[];
-};
-// TODO: renames: files => challengeFiles; key => fileKey;
-export type ChallengeFileType = {
-  contents: string;
-  editableContents?: string;
-  editableRegionBoundaries?: number[] | null;
-  error?: string | null;
-  ext: ExtTypes;
-  head?: string[];
-  history?: string[];
-  fileKey: FileKeyTypes;
-  name: string;
-  path: string;
-  seed?: string;
-  seedEditableRegionBoundaries?: number[];
-  tail?: string;
+  challengeFiles: ChallengeFiles;
 };
 
 export type ExtTypes = 'js' | 'html' | 'css' | 'jsx';
 export type FileKeyTypes = 'indexjs' | 'indexhtml' | 'indexcss';
+
+export type ChallengeMetaType = {
+  block: string;
+  id: string;
+  introPath: string;
+  nextChallengePath: string;
+  prevChallengePath: string;
+  removeComments: boolean;
+  superBlock: string;
+  title?: string;
+  challengeType?: number;
+  helpCategory: string;
+};
 
 export type PortfolioType = {
   id: string;
@@ -297,27 +352,57 @@ export type PortfolioType = {
   description?: string;
 };
 
+export type FileKeyChallengeType = {
+  contents: string;
+  ext: ExtTypes;
+  head: string;
+  id: string;
+  key: FileKeyTypes;
+  name: string;
+  tail: string;
+};
+
+// This looks redundant - same as ChallengeNodeType above?
+// TODO: @moT01 Yes, it is an almost duplicate because @ojeytonwilliams
+// does not allow us to add 'Type' at the end...
+// The below is more accurate, because it was built based on graphql's
+// interpretation of what we have. The props commented out are what we
+// think are on the node, but actually do not exist.
 export type ChallengeNode = {
   block: string;
+  challengeFiles: ChallengeFiles;
   challengeOrder: number;
   challengeType: number;
   dashedName: string;
   description: string;
-  challengeFiles: ChallengeFileType;
   fields: {
     slug: string;
     blockName: string;
+    tests: Test[];
   };
   forumTopicId: number;
-  guideUrl: string;
-  head: string[];
+  // guideUrl: string;
+  // head: string[];
   helpCategory: string;
+  id: string;
   instructions: string;
-  isComingSoon: boolean;
-  removeComments: boolean;
-  isLocked: boolean;
-  isPrivate: boolean;
+  internal?: {
+    content: string;
+    contentDigest: string;
+    description: string;
+    fieldOwners: string[];
+    ignoreType: boolean | null;
+    mediaType: string;
+    owner: string;
+    type: string;
+  };
   order: number;
+  question: {
+    answers: string[];
+    solution: number;
+    text: string;
+  } | null;
+  removeComments: boolean;
   required: [
     {
       link: string;
@@ -325,11 +410,79 @@ export type ChallengeNode = {
       src: string;
     }
   ];
-  superOrder: number;
+  solutions: {
+    [T in FileKeyTypes]: FileKeyChallengeType;
+  };
+  sourceInstanceName: string;
   superBlock: string;
-  tail: string[];
+  superOrder: number;
+  template: string;
+  tests: Test[];
   time: string;
   title: string;
   translationPending: boolean;
+  videoId?: string;
   videoUrl?: string;
+  // isComingSoon: boolean;
+  // isLocked: boolean;
+  // isPrivate: boolean;
+  // tail: string[];
 };
+
+// Extra types built from challengeSchema
+
+export type ChallengeFile = {
+  fileKey: string;
+  ext: ExtTypes;
+  name: string;
+  editableRegionBoundaries: number[];
+  path: string;
+  error: null | string;
+  head: string;
+  tail: string;
+  seed: string;
+  contents: string;
+  id: string;
+  history: [[string], string];
+};
+
+export type ChallengeFiles = ChallengeFile[] | null;
+
+export interface ChallengeSchema {
+  block: string;
+  blockId: string;
+  challengeOrder: number;
+  removeComments: boolean;
+  // TODO: should be typed with possible values
+  challengeType: number;
+  checksum: number;
+  __commentCounts: Record<string, unknown>;
+  dashedName: string;
+  description: string;
+  challengeFiles: ChallengeFiles;
+  guideUrl: string;
+  // TODO: should be typed with possible values
+  helpCategory: string;
+  videoUrl: string;
+  forumTopicId: number;
+  id: string;
+  instructions: string;
+  isComingSoon: boolean;
+  // TODO: Do we still use this
+  isLocked: boolean;
+  isPrivate: boolean;
+  order: number;
+  videoId?: string;
+  question: Question;
+  required: Required[];
+  solutions: ChallengeFile[][];
+  superBlock: string;
+  superOrder: number;
+  suborder: number;
+  tests: Test[];
+  template: string;
+  time: string;
+  title: string;
+  translationPending: boolean;
+  url?: string;
+}

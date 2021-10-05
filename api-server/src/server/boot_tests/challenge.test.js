@@ -1,4 +1,3 @@
-/* global describe xdescribe it expect jest */
 import { first, find } from 'lodash';
 
 import {
@@ -340,7 +339,7 @@ describe('boot/challenge', () => {
     });
     const mockNormalizeParams = params => params;
 
-    it('redirects to the learn base url for non-users', async done => {
+    it('redirects to the learn base url for non-users', async () => {
       const redirectToCurrentChallenge = createRedirectToCurrentChallenge(
         () => {},
         mockNormalizeParams,
@@ -352,11 +351,10 @@ describe('boot/challenge', () => {
       await redirectToCurrentChallenge(req, res, next);
 
       expect(res.redirect).toHaveBeenCalledWith(mockLearnUrl);
-      done();
     });
 
     // eslint-disable-next-line max-len
-    it('redirects to the url provided by the challengeUrlResolver', async done => {
+    it('redirects to the url provided by the challengeUrlResolver', async () => {
       const challengeUrlResolver = await createChallengeUrlResolver(
         mockAllChallenges,
         {
@@ -377,11 +375,10 @@ describe('boot/challenge', () => {
       await redirectToCurrentChallenge(req, res, next);
 
       expect(res.redirect).toHaveBeenCalledWith(expectedUrl);
-      done();
     });
 
     // eslint-disable-next-line max-len
-    it('redirects to the first challenge for users without a currentChallengeId', async done => {
+    it('redirects to the first challenge for users without a currentChallengeId', async () => {
       const challengeUrlResolver = await createChallengeUrlResolver(
         mockAllChallenges,
         {
@@ -401,7 +398,6 @@ describe('boot/challenge', () => {
       await redirectToCurrentChallenge(req, res, next);
       const expectedUrl = `${mockHomeLocation}${firstChallengeUrl}`;
       expect(res.redirect).toHaveBeenCalledWith(expectedUrl);
-      done();
     });
   });
 });

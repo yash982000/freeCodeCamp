@@ -1,9 +1,6 @@
-/* global cy */
-
 describe('Username input field', () => {
   beforeEach(() => {
-    cy.visit('/');
-    cy.contains("Get started (it's free)").click({ force: true });
+    cy.login();
     cy.visit('/settings');
 
     // Setting aliases here

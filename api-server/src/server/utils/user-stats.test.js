@@ -1,13 +1,12 @@
-/* global describe it expect jest  */
 import moment from 'moment-timezone';
 
+import { mockUserID, mockApp, mockUser } from '../boot_tests/fixtures';
 import {
   prepUniqueDaysByHours,
   calcCurrentStreak,
   calcLongestStreak,
   getUserById
 } from './user-stats';
-import { mockUserID, mockApp, mockUser } from '../boot_tests/fixtures';
 
 jest.useFakeTimers('modern');
 const PST = 'America/Los_Angeles';
@@ -594,7 +593,7 @@ describe('user stats', () => {
 
     it('resolves a user for a given id', done => {
       expect.assertions(7);
-      return getUserById(mockUserID, mockApp.models.User)
+      getUserById(mockUserID, mockApp.models.User)
         .then(user => {
           expect(user).toEqual(mockUser);
 

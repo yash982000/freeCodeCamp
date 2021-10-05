@@ -96,6 +96,7 @@
     "privacy": "Los ajustes de esta sección te permiten controlar lo que se muestra en tu portafolio público de freeCodeCamp.",
     "data": "Para ver qué datos tenemos en tu cuenta, haz clic en el botón \"Descarga tus datos\" a continuación",
     "disabled": "Tus certificaciones se deshabilitarán si se configuran como privadas.",
+    "private-name": "Tu nombre no aparecerá en tus certificaciones, si está establecido como privado.",
     "claim-legacy": "Una vez que hayas obtenido las siguientes certificaciones de FreeCodeCamp, podrás reclamar la {{cert}}:",
     "for": "Ajustes de cuenta de {{username}}",
     "username": {
@@ -305,6 +306,8 @@
     "confirm-2": "Confirma tu donación única de ${{usd}}",
     "confirm-3": "Confirma tu donación de ${{usd}} / mes",
     "confirm-4": "Confirma tu donación de ${{usd}} / año",
+    "wallet-label": "${{usd}} donación a freeCodeCamp",
+    "wallet-label-1": "${{usd}} / donación mensual a freeCodeCamp",
     "your-donation": "Tu donación de ${{usd}} proporcionará {{hours}} horas de aprendizaje a personas de todo el mundo.",
     "your-donation-2": "Tu donación de ${{usd}} proporcionará {{hours}} horas de aprendizaje a personas de todo el mundo cada mes.",
     "your-donation-3": "Tu donación de ${{usd}} proporcionará {{hours}} horas de aprendizaje a personas de todo el mundo cada año.",
@@ -315,6 +318,7 @@
     "nicely-done": "Bien hecho. Acabas de completar {{block}}.",
     "credit-card": "Tarjeta de crédito",
     "credit-card-2": "O dona con una tarjeta de crédito:",
+    "or-card": "O has una donación con tarjeta de crédito",
     "paypal": "con PayPal:",
     "need-email": "Necesitamos un correo electrónico válido al que podamos enviar tu recibo de impuestos de donación.",
     "went-wrong": "Algo salió mal al procesar tu donación. No se ha cobrado tu tarjeta.",
@@ -395,7 +399,9 @@
     "analytics": "Un gráfico de barras y un gráfico de líneas",
     "shield": "Un escudo con una marca de verificación",
     "tensorflow": "Icono de Tensorflow",
-    "algorithm": "Nodos ramificados"
+    "database": "Icono de base de datos",
+    "algorithm": "Nodos ramificados",
+    "magnifier": "lupa"
   },
   "aria": {
     "fcc-logo": "Logo de freeCodeCamp",
@@ -421,6 +427,7 @@
     "wrong-updating": "Se produjo un error al actualizar tu cuenta. Por favor revisa e intenta de nuevo",
     "updated-preferences": "Hemos actualizado tus preferencias",
     "email-invalid": "El formato del correo electrónico no es válido",
+    "email-valid": "Your email has successfully been changed, happy coding!",
     "bad-challengeId": "currentChallengeId no es un ID de desafío válido",
     "theme-invalid": "El tema no es válido",
     "theme-set": "Tema ya establecido",
@@ -440,6 +447,7 @@
     "cert-claim-success": "¡@{{username}}, has reclamado con éxito la certificación {{name}}! ¡Felicitaciones en nombre del equipo de freeCodeCamp.org!",
     "wrong-name": "Se produjo un error con la verificación de {{name}}. Por favor, inténtalo de nuevo. Si continúas recibiendo este error, puedes enviar un mensaje a support@freeCodeCamp.org para obtener ayuda.",
     "error-claiming": "Error al reclamar {{certName}}",
+    "refresh-needed": "Solamente puedes utilizar el botón de Pago una vez. Actualiza la página para empezar de nuevo.",
     "username-not-found": "No pudimos encontrar un usuario con el nombre de usuario \"{{username}}\"",
     "add-name": "Este usuario debe agregar su nombre a su cuenta para que otros puedan ver su certificación.",
     "not-eligible": "Este usuario no es elegible para las certificaciones de freeCodeCamp.org en este momento.",
@@ -558,7 +566,7 @@
   },
   "certification-card": {
     "title": "Reclamar tu certificación",
-    "intro": "Complete the following steps to claim and view your {{i18nCertText}}",
+    "intro": "Completa los siguientes pasos para reclamar y ver tu {{i18nCertText}}",
     "complete-project": "Completa {{i18nCertText}} proyectos",
     "accept-honesty": "Acepta nuestra política de honestidad académica",
     "set-name": "Establece tu nombre, y hazlo público",
